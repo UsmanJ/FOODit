@@ -1,8 +1,23 @@
 <ul class="meals">
     <li class="meal" ng-repeat="meal in menu.meals">
-        <h4 class="name">{{meal.name}}</h4>
-        <img class="image" ng-src="{{meal.primaryImageUrl}}">
-        <p class="description">{{meal.description}}</p>
-        <p class="price">{{meal.price}}</p>
+
+      <article class="mealarticle">
+        <div class="pricediv">
+          <p class="price">£{{meal.price}}</p>
+        </div>
+          <div class="image-size">
+            <img class="image" ng-src="{{meal.primaryImageUrl}}">
+          </div>
+          <div class="details">
+            <div class="menucurvediv">
+              <object type="image/svg+xml" data="../images/meal-card__curve.svg"></object>
+            </div>
+            <h4 class="name">{{meal.name}}</h4>
+            <p class="description">{{meal.description}}</p>
+          </div>
+          <button type="button" class="add-dish">Add To Your Order!</button>
+          <p class="options">3 options available</p>
+      </article>
+
     </li>
 </ul>
