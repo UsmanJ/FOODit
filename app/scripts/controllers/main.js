@@ -16,18 +16,16 @@ angular.module('jstestApp')
   });
 
     $rootScope.basketEmpty = true;
-    $rootScope.basket = {};
+    $rootScope.basket = [];
     $rootScope.totalCost = 0;
     $rootScope.totalItems = 0;
 
     $scope.add = function(meal) {
       $rootScope.basketEmpty = false;
-      $rootScope.basket[meal.name] = [parseFloat(meal.price)];
+      $rootScope.basket.push({meal: meal.name, price: parseFloat(meal.price), quantity: 1});
       $rootScope.totalItems += 1;
       $rootScope.totalCost += parseFloat(meal.price);
-      console.log($rootScope.totalCost.toFixed(2));
       console.log($rootScope.basket);
-      console.log($rootScope.totalItems);
     };
   }
 ]);

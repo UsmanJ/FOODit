@@ -21,7 +21,7 @@
 
     <!-- Add your site or application content here -->
     <div class="container">
-      <div class="header">
+      <div class="header" ng-show="!collapsed">
         <div class="inner-header" ng-show="basketEmpty">
           <h3 class="text-muted">It's time to order some delicious food</h3>
         </div>
@@ -29,9 +29,23 @@
           <div class="items">
             <h3 class="total-items">{{totalItems}} Main</h3>
           </div>
-          <div class="total">
+          <div class="total" style="cursor: pointer;" ng-click="collapsed = !collapsed" ng-model="collapsed">
             <h3 class="total-price">£{{totalCost.toFixed(2)}}</h3>
           </div>
+        </div>
+      </div>
+      <div class="header2" ng-show="collapsed">
+        <h3 class="basketHeader">Your Order</h3>
+        <p class="basketSlogan">A Delicious Restaurant</p>
+        <p class="itemCount">{{totalItems}} main(s)</p>
+        <div class="basket" ng-repeat="item in basket">
+          <h3 class="quantity"> {{item.quantity}}</h3>
+          <h3 class="mealName"> {{item.meal}}</h3>
+          <h3 class="mealPrice"> £{{item.price.toFixed(2)}}</h3>
+        </div>
+        <a href="#" class="orderBtn">Confirm Your Order</a>
+        <div class="order-price">
+          <h3 class="total-price">£{{totalCost.toFixed(2)}}</h3>
         </div>
       </div>
 
