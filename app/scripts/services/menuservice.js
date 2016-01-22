@@ -18,5 +18,5 @@ angular.module('jstestApp')
 		function get () {
 			return $http.get('/data/menu.json');
 		}
-	}]);
 
+	}]);

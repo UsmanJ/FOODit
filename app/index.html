@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="jstestApp">
+  <body ng-app="jstestApp" ng-controller="MainCtrl">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -22,8 +22,16 @@
     <!-- Add your site or application content here -->
     <div class="container">
       <div class="header">
-        <div class="inner-header">
+        <div class="inner-header" ng-show="basketEmpty">
           <h3 class="text-muted">It's time to order some delicious food</h3>
+        </div>
+        <div class="inner-header" ng-show="!basketEmpty">
+          <div class="items">
+            <h3 class="total-items">{{totalItems}} Items</h3>
+          </div>
+          <div class="total-price">
+            <h3 class="total-price">£{{totalCost.toFixed(2)}}</h3>
+          </div>
         </div>
       </div>
 

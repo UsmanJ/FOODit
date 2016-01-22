@@ -22,10 +22,38 @@ describe('Controller: MainCtrl', function () {
     });
   }));
 
-
   it('should call the menu service to retrieve a list of meals', function () {
 	expect(MenuService.get).toHaveBeenCalled();
 	expect(scope.menu.resultCount).toBe(1);
   });
 
+  it('should have an empty basket when page first loads', function () {
+    expect(scope.basketEmpty).toBe(true);
+  });
+
+  it('should add a dish to the basket', function () {
+    scope.add(scope);
+    expect(scope.basketEmpty).toBe(false);
+  });
+
+  it('basketEmpty remains false when numerous dishes are added to the basket', function () {
+    scope.add(scope);
+    scope.add(scope);
+    expect(scope.basketEmpty).toBe(false);
+  });
+
+  // it('should add the dish and price to the basket', function () {
+  //   scope.add();
+  //   expect(scope.basket).toContain('Seafood risotto');
+  // });
+
+  // it('should add dish price to the total', function () {
+  //   scope.add(scope);
+  //   expect(scope.total).toBe(false);
+  // });
+
+  it('should add a number to the total number of items when a dish is added', function () {
+    scope.add(scope);
+    expect(scope.items).toBe(1);
+  });
 });
