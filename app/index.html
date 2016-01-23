@@ -38,7 +38,7 @@
         <h3 class="basketHeader">Your Order</h3>
         <p class="basketSlogan">A Delicious Restaurant</p>
         <p class="itemCount">{{totalItems}} main(s)</p>
-        <div class="basket" ng-repeat="item in basket">
+        <div class="basket" ng-repeat="item in basket" ng-hide="delete()">
           <div class="increment" style="cursor: pointer;" ng-click="incrementDish(item)">
             <p class="increment-quantity">+</p>
           </div>

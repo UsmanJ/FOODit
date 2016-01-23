@@ -63,6 +63,7 @@ angular.module('jstestApp')
       }
       $rootScope.totalItems += 1;
       $rootScope.totalCost += parseFloat(item.price);
+      $scope.updateStorage();
     };
 
     $scope.decrementDish = function(item) {
@@ -73,11 +74,17 @@ angular.module('jstestApp')
           $rootScope.basket[i] = ({meal: item.meal, price: parseFloat(item.price), quantity: j-1});
           if ($rootScope.basket[i].quantity === 0) {
             delete $rootScope.basket[i];
+            $rootScope.deleted = false;
+            $rootScope.deleted = true;
+          }
+          if ($rootScope.totalItems === 0 ) {
+            $rootScope.basketEmpty = true;
           }
         }
       }
       $rootScope.totalItems -= 1;
       $rootScope.totalCost -= parseFloat(item.price);
+      $scope.updateStorage();
     };
 
     $scope.updateStorage = function() {
@@ -89,6 +96,7 @@ angular.module('jstestApp')
       if (retrieved !== null) {
         $rootScope.basket = retrieved;
         $rootScope.basketEmpty = false;
+        $rootScope.basket = $rootScope.basket.filter(function(n){ return n != undefined });
       }
     };
 
@@ -118,6 +126,10 @@ angular.module('jstestApp')
       if ($rootScope.basket.length > 0) {
         $rootScope.basketEmpty = false;
       }
+    };
+
+    $rootScope.delete = function() {
+      return $rootScope.deleted;
     };
   }
 
