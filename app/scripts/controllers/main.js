@@ -12,6 +12,9 @@ angular.module('jstestApp')
 
   angular.element(document).ready(function () {
     $rootScope.retreiveBasket();
+    $rootScope.sessionPrice();
+    $rootScope.sessionQuantity();
+    $rootScope.sessionBasket();
   });
 
 	$scope.menu = {};
@@ -78,14 +81,41 @@ angular.module('jstestApp')
     };
 
     $scope.updateStorage = function() {
-      // var storage = JSON.parse(sessionStorage.getItem($rootScope.basket));
       sessionStorage.setItem('basket', JSON.stringify($rootScope.basket));
     };
 
     $rootScope.retreiveBasket = function() {
       var retrieved = JSON.parse(sessionStorage.getItem('basket'));
-      if (retrieved != null) {
+      if (retrieved !== null) {
         $rootScope.basket = retrieved;
+        $rootScope.basketEmpty = false;
+      }
+    };
+
+    $rootScope.sessionPrice = function() {
+      var i;
+      for (i = 0; i < $rootScope.basket.length; i++) {
+        var j = $rootScope.basket[i].price;
+        var k = $rootScope.basket[i].quantity;
+        $rootScope.totalCost += (k * j);
+      }
+    };
+
+    $rootScope.sessionQuantity = function() {
+      var i;
+      for (i = 0; i < $rootScope.basket.length; i++) {
+        var j = $rootScope.basket[i].quantity;
+        $rootScope.totalItems += j;
+      }
+    };
+
+    $rootScope.confirmOrder = function() {
+      sessionStorage.clear();
+      location.reload();
+    };
+
+    $rootScope.sessionBasket = function() {
+      if ($rootScope.basket.length > 0) {
         $rootScope.basketEmpty = false;
       }
     };

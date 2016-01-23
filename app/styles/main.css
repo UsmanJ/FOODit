@@ -222,8 +222,9 @@ img.image {
   font-family: "Comic Sans MS", cursive, sans-serif;
   font-size: 15px;
   color: white;
-  margin-left: 18px;
+  margin-left: 25px;
   margin-top: -20px;
+  width: 80%;
 }
 
 .mealPrice {

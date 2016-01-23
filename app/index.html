@@ -22,7 +22,7 @@
     <!-- Add your site or application content here -->
     <div class="container">
       <div class="header" ng-show="!collapsed">
-        <div class="inner-header" ng-show="basketEmpty">
+        <div class="inner-header" ng-show="basketEmpty" ng-click="sessionBasket()">
           <h3 class="text-muted">It's time to order some delicious food</h3>
         </div>
         <div class="inner-header2" ng-show="!basketEmpty">
@@ -49,7 +49,7 @@
             <p class="decrement-quantity">-</p>
           </div>
         </div>
-        <a href="#" class="orderBtn">Confirm Your Order</a>
+        <a href="#" class="orderBtn" ng-click="confirmOrder()">Confirm Your Order</a>
         <div class="order-price">
           <h3 class="total-price">£{{totalCost.toFixed(2)}}</h3>
         </div>
