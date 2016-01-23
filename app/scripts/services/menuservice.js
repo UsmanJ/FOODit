@@ -19,4 +19,25 @@ angular.module('jstestApp')
 			return $http.get('/data/menu.json');
 		}
 
+		var basket = {
+
+        meal: {
+            name: '',
+            price: '',
+						quantity: '',
+        },
+
+        SaveState: function () {
+            sessionStorage.MenuService = angular.toJson(basket.model);
+        },
+
+        RestoreState: function () {
+            basket.model = angular.fromJson(sessionStorage.MenuService);
+        }
+    }
+
+    $rootScope.$on("savestate", basket.SaveState);
+    $rootScope.$on("restorestate", basket.RestoreState);
+
+    return basket;
 	}]);
