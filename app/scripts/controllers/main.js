@@ -12,7 +12,6 @@ angular.module('jstestApp')
 	$scope.menu = {};
     MenuService.get('/data/menu.json').success(function(data) {
 	  $scope.menu = data;
-    // $scope.basket = {};
   });
 
     $rootScope.basketEmpty = true;
@@ -22,10 +21,54 @@ angular.module('jstestApp')
 
     $scope.add = function(meal) {
       $rootScope.basketEmpty = false;
-      $rootScope.basket.push({meal: meal.name, price: parseFloat(meal.price), quantity: 1});
+
+      var i;
+      var alreadyExists = false;
+      for (i = 0; i < $rootScope.basket.length; i++) {
+        if ($rootScope.basket[i].meal === meal.name) {
+          alreadyExists = true;
+          var j = $rootScope.basket[i].quantity;
+          $rootScope.basket[i] = ({meal: meal.name, price: parseFloat(meal.price), quantity: j+1});
+          }
+      }
+
+      if (!alreadyExists) {
+        $rootScope.basket.push({meal: meal.name, price: parseFloat(meal.price), quantity: 1});
+      }
+
+      if ($rootScope.basket.length === 0) {
+        $rootScope.basket.push({meal: meal.name, price: parseFloat(meal.price), quantity: 1});
+      }
+
       $rootScope.totalItems += 1;
       $rootScope.totalCost += parseFloat(meal.price);
-      console.log($rootScope.basket);
+    };
+
+    $scope.incrementDish = function(item) {
+      var i;
+      for (i = 0; i < $rootScope.basket.length; i++) {
+        if ($rootScope.basket[i].meal === item.meal) {
+          var j = $rootScope.basket[i].quantity;
+          $rootScope.basket[i] = ({meal: item.meal, price: parseFloat(item.price), quantity: j+1});
+          }
+      }
+      $rootScope.totalItems += 1;
+      $rootScope.totalCost += parseFloat(item.price);
+    };
+
+    $scope.decrementDish = function(item) {
+      var i;
+      for (i = 0; i < $rootScope.basket.length; i++) {
+        if ($rootScope.basket[i].meal === item.meal) {
+          var j = $rootScope.basket[i].quantity;
+          $rootScope.basket[i] = ({meal: item.meal, price: parseFloat(item.price), quantity: j-1});
+          if ($rootScope.basket[i].quantity === 0) {
+            delete $rootScope.basket[i];
+          }
+        }
+      }
+      $rootScope.totalItems -= 1;
+      $rootScope.totalCost -= parseFloat(item.price);
     };
   }
 ]);

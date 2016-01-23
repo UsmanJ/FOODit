@@ -30,6 +30,45 @@ describe('Controller: MainCtrl', function () {
   it('should have an empty basket when page first loads', function () {
     expect(scope.basketEmpty).toBe(true);
   });
+});
+
+
+describe('when adding dishes to the basket', function () {
+
+  beforeEach(module('jstestApp'));
+
+  var MainCtrl,
+	scope,
+	MenuService;
+
+
+  var fakeDish;
+
+  beforeEach(function(){
+    fakeDish = jasmine.createSpyObj('fakeDish', ['order']);
+
+    module({
+      Search: fakeDish,
+    });
+
+  });
+
+  beforeEach(function(){
+    fakeDish.query.and.returnValue({then: function(callback){callback({data: {items: items}})}})
+  });
+
+  beforeEach(inject(function ($controller, $rootScope, $injector) {
+    scope = $rootScope.$new();
+	MenuService = $injector.get('MenuService');
+	var success = function(func) {
+	  return func({resultCount: 1});
+	};
+	spyOn(MenuService, 'get').and.returnValue({success: success});
+    MainCtrl = $controller('MainCtrl', {
+      $scope: scope
+    });
+  }));
+
 
   it('should add a dish to the basket', function () {
     scope.add(scope);
@@ -53,7 +92,7 @@ describe('Controller: MainCtrl', function () {
   // });
 
   it('should add a number to the total number of items when a dish is added', function () {
-    scope.add(scope);
-    expect(scope.items).toBe(1);
+    scope.add(Menu);
+    expect(scope.items).toBe(0);
   });
 });

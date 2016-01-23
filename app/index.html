@@ -39,9 +39,15 @@
         <p class="basketSlogan">A Delicious Restaurant</p>
         <p class="itemCount">{{totalItems}} main(s)</p>
         <div class="basket" ng-repeat="item in basket">
+          <div class="increment" style="cursor: pointer;" ng-click="incrementDish(item)">
+            <p class="increment-quantity">+</p>
+          </div>
           <h3 class="quantity"> {{item.quantity}}</h3>
           <h3 class="mealName"> {{item.meal}}</h3>
-          <h3 class="mealPrice"> £{{item.price.toFixed(2)}}</h3>
+          <h3 class="mealPrice"> £{{(item.price * item.quantity).toFixed(2)}}</h3>
+          <div class="decrement" style="cursor: pointer;" ng-click="decrementDish(item)">
+            <p class="decrement-quantity">-</p>
+          </div>
         </div>
         <a href="#" class="orderBtn">Confirm Your Order</a>
         <div class="order-price">
