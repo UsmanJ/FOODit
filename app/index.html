@@ -22,19 +22,19 @@
     <!-- Add your site or application content here -->
     <div class="container">
       <div class="header" ng-show="!collapsed">
-        <div class="inner-header" ng-show="basketEmpty" ng-click="sessionBasket()">
+        <div class="inner-header" ng-show="basketEmpty" ng-click="sessionBasket()" ng-model="sessionBasket">
           <h3 class="text-muted">It's time to order some delicious food</h3>
         </div>
         <div class="inner-header2" ng-show="!basketEmpty">
           <div class="items">
             <h3 class="total-items">{{totalItems}} Main</h3>
           </div>
-          <div class="total" style="cursor: pointer;" ng-click="collapsed = !collapsed" ng-model="collapsed">
+          <div class="total" id="total" style="cursor: pointer;" ng-click="collapsed = !collapsed" ng-model="collapsed" ng-animate="basket">
             <h3 class="total-price">£{{totalCost.toFixed(2)}}</h3>
           </div>
         </div>
       </div>
-      <div class="header2" ng-show="collapsed">
+      <div class="basket-show" ng-hide="!collapsed" ng-animate="basket">
         <h3 class="basketHeader">Your Order</h3>
         <p class="basketSlogan">A Delicious Restaurant</p>
         <p class="itemCount">{{totalItems}} main(s)</p>
@@ -49,7 +49,7 @@
             <p class="decrement-quantity">-</p>
           </div>
         </div>
-        <a href="#" class="orderBtn" ng-click="confirmOrder()">Confirm Your Order</a>
+        <a href="#" class="orderBtn" ng-click="clearBasket()" ng-click="collapsed = !collapsed">Confirm Your Order</a>
         <div class="order-price">
           <h3 class="total-price">£{{totalCost.toFixed(2)}}</h3>
         </div>

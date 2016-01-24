@@ -18,7 +18,7 @@
   padding-top: 15px;
 }
 
-.header2 {
+.basket-show {
   background-color: #c83c3c;
   height: 4em;
   max-width: 48%;
@@ -28,6 +28,22 @@
   overflow:hidden;
   height:1%;
   padding-bottom: 20px;
+}
+
+.basket-show.ng-hide-remove {
+-webkit-animation: 0.5s show;
+animation: 0.5s show;
+}
+
+@keyframes show {
+  0% {
+   opacity: 0;
+   transform: translateY(-400px);
+  }
+  100% {
+   opacity: 1;
+   transform: translateY(0px);
+  }
 }
 
 .text-muted {

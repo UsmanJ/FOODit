@@ -8,13 +8,13 @@
  * Controller of the jstestApp
  */
 angular.module('jstestApp')
-  .controller('MainCtrl', ['$scope', 'MenuService', '$rootScope', function ($scope, MenuService, $rootScope) {
+  .controller('MainCtrl', ['$scope', 'MenuService', '$rootScope', '$timeout', function ($scope, MenuService, $rootScope, $timeout) {
 
   angular.element(document).ready(function () {
-    $rootScope.retreiveBasket();
-    $rootScope.sessionPrice();
-    $rootScope.sessionQuantity();
-    $rootScope.sessionBasket();
+    $scope.retreiveBasket();
+    $scope.sessionPrice();
+    $scope.sessionQuantity();
+    $scope.sessionBasket();
   });
 
 	$scope.menu = {};
@@ -27,10 +27,8 @@ angular.module('jstestApp')
     $rootScope.totalCost = 0;
     $rootScope.totalItems = 0;
 
-
     $scope.add = function(meal) {
       $rootScope.basketEmpty = false;
-
       var i;
       var alreadyExists = false;
       for (i = 0; i < $rootScope.basket.length; i++) {
@@ -72,13 +70,10 @@ angular.module('jstestApp')
         if ($rootScope.basket[i].meal === item.meal) {
           var j = $rootScope.basket[i].quantity;
           $rootScope.basket[i] = ({meal: item.meal, price: parseFloat(item.price), quantity: j-1});
-          if ($rootScope.basket[i].quantity === 0) {
+          if ($rootScope.basket[i].quantity === 0 ) {
             delete $rootScope.basket[i];
-            $rootScope.deleted = false;
-            $rootScope.deleted = true;
-          }
-          if ($rootScope.totalItems === 0 ) {
-            $rootScope.basketEmpty = true;
+            $scope.deleted = true;
+            $scope.clearBasket();
           }
         }
       }
@@ -91,16 +86,15 @@ angular.module('jstestApp')
       sessionStorage.setItem('basket', JSON.stringify($rootScope.basket));
     };
 
-    $rootScope.retreiveBasket = function() {
+    $scope.retreiveBasket = function() {
       var retrieved = JSON.parse(sessionStorage.getItem('basket'));
       if (retrieved !== null) {
         $rootScope.basket = retrieved;
-        $rootScope.basketEmpty = false;
         $rootScope.basket = $rootScope.basket.filter(function(n){ return n != undefined });
       }
     };
 
-    $rootScope.sessionPrice = function() {
+    $scope.sessionPrice = function() {
       var i;
       for (i = 0; i < $rootScope.basket.length; i++) {
         var j = $rootScope.basket[i].price;
@@ -109,7 +103,7 @@ angular.module('jstestApp')
       }
     };
 
-    $rootScope.sessionQuantity = function() {
+    $scope.sessionQuantity = function() {
       var i;
       for (i = 0; i < $rootScope.basket.length; i++) {
         var j = $rootScope.basket[i].quantity;
@@ -117,19 +111,21 @@ angular.module('jstestApp')
       }
     };
 
-    $rootScope.confirmOrder = function() {
+    $scope.clearBasket = function() {
       sessionStorage.clear();
       location.reload();
     };
 
-    $rootScope.sessionBasket = function() {
-      if ($rootScope.basket.length > 0) {
-        $rootScope.basketEmpty = false;
+    $scope.sessionBasket = function() {
+      if ($rootScope.totalItems > 0) {
+        $timeout(function() {
+          $rootScope.basketEmpty = false;
+        },50);
       }
     };
 
-    $rootScope.delete = function() {
-      return $rootScope.deleted;
+    $scope.delete = function() {
+      return $scope.deleted;
     };
   }
 
