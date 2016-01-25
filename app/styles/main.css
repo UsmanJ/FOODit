@@ -1,5 +1,4 @@
 .no-js {
-  max-width: 50%;
   margin:0 auto;
   background-color: #f7f7f7;
 }
@@ -9,22 +8,24 @@
    padding: 0px;
 }
 
+.container {
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.content {
+  width: 96%;
+}
+
 .header {
   background-color: #c83c3c;
   height: 4em;
-  max-width: 48%;
-  margin: auto;
-  margin-left: 177px;
   padding-top: 15px;
 }
 
 .basket-show {
   background-color: #c83c3c;
   height: 4em;
-  max-width: 48%;
-  margin: auto;
-  margin-left: 177px;
-  padding-top: 15px;
   overflow:hidden;
   height:1%;
   padding-bottom: 20px;
@@ -97,6 +98,7 @@ div.pricediv {
   line-height: 3em;
   margin-left: auto ;
   margin-right: auto ;
+  margin-bottom: -48px;
 }
 
 .image-size {
@@ -112,8 +114,8 @@ img.image {
 }
 
 .mealarticle {
-  max-width: 50%;
-  margin: auto;
+  /*max-width: 50%;*/
+  /*margin: auto;*/
   background-color: white;
   padding-bottom: 30px;
   border-style: solid;
@@ -140,9 +142,9 @@ img.image {
   margin-left: 15px;
 }
 
-.items {
+.itemsMains {
   background-color: #d75050;
-  width: 29%;
+  width: 24%;
   height: 2em;
   padding-top: 5px;
   margin-left: 15px;
@@ -150,10 +152,22 @@ img.image {
   margin-top: 6px;
 }
 
-.total-items {
+.itemsOthers {
+  background-color: #d75050;
+  width: 24%;
+  height: 2em;
+  padding-top: 5px;
+  margin-left: 15px;
+  float: left;
+  margin-top: 6px;
+}
+
+.totalText {
   color: #990000;
   font-family: "Comic Sans MS", cursive, sans-serif;
   text-align: center;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
 .total {
@@ -208,6 +222,14 @@ img.image {
   margin-top: 10px;
 }
 
+.itemCount2 {
+  margin-left: 75px;
+  color: #990000;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 12px;
+  margin-top: -16px;
+}
+
 .orderBtn {
 	background-color: #ffffff;
 	border-radius: 5px;
@@ -239,7 +261,7 @@ img.image {
   font-size: 15px;
   color: white;
   margin-left: 25px;
-  margin-top: -20px;
+  margin-top: -33px;
   width: 80%;
 }
 
@@ -260,6 +282,7 @@ img.image {
   color: white;
   width: 5%;
   height: 33px;
+  margin-top: 12px;
 }
 
 .increment {

@@ -26,6 +26,8 @@ angular.module('jstestApp')
     $rootScope.basket = [];
     $rootScope.totalCost = 0;
     $rootScope.totalItems = 0;
+    $rootScope.totalMains = 0;
+    $rootScope.totalOthers = 0;
 
     $scope.add = function(meal) {
       $rootScope.basketEmpty = false;
@@ -46,8 +48,12 @@ angular.module('jstestApp')
       if ($rootScope.basket.length === 0) {
         $rootScope.basket.push({meal: meal.name, price: parseFloat(meal.price), quantity: 1});
       }
+      if (meal.tags.indexOf("#course:main_courses") > -1) {
+        $rootScope.totalMains += 1;
+      } else {
+        $rootScope.totalOthers += 1;
+      }
       $scope.updateStorage();
-      $rootScope.totalItems += 1;
       $rootScope.totalCost += parseFloat(meal.price);
     };
 
@@ -59,7 +65,11 @@ angular.module('jstestApp')
           $rootScope.basket[i] = ({meal: item.meal, price: parseFloat(item.price), quantity: j+1});
           }
       }
-      $rootScope.totalItems += 1;
+      if (meal.tags.indexOf("#course:main_courses") > -1) {
+        $rootScope.totalMains += 1;
+      } else {
+        $rootScope.totalOthers += 1;
+      }
       $rootScope.totalCost += parseFloat(item.price);
       $scope.updateStorage();
     };
@@ -78,8 +88,11 @@ angular.module('jstestApp')
           }
         }
       }
-      $rootScope.totalItems -= 1;
-      $rootScope.totalCost -= parseFloat(item.price);
+      if (meal.tags.indexOf("#course:main_courses") > -1) {
+        $rootScope.totalMains -= 1;
+      } else {
+        $rootScope.totalOthers -= 1;
+      }      $rootScope.totalCost -= parseFloat(item.price);
       $scope.updateStorage();
     };
 
@@ -118,7 +131,7 @@ angular.module('jstestApp')
     };
 
     $scope.sessionBasket = function() {
-      if ($rootScope.totalItems > 0) {
+      if ($rootScope.totalOthers > 0 || $rootScope.totalMains > 0) {
         $timeout(function() {
           $rootScope.basketEmpty = false;
         },50);
