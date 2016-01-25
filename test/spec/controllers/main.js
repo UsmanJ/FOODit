@@ -53,7 +53,7 @@ describe('when adding dishes to the basket', function () {
     });
   }));
 
-  var meal = {'meal': 'pizza', 'price': 9.50, 'quantity': 1};
+  var meal = {'meal': 'pizza', 'price': 9.50, 'quantity': 1, 'tags': ['#course:main_courses']};
 
   it('should add a dish to the basket', function () {
     scope.add(meal);
@@ -76,9 +76,9 @@ describe('when adding dishes to the basket', function () {
     expect(scope.totalCost).toBe(9.5);
   });
 
-  it('should add a number to the total number of items when a dish is added', function () {
+  it('should add a number to the total number of mains when a main is added', function () {
     scope.add(meal);
-    expect(scope.totalItems).toBe(1);
+    expect(scope.totalMains).toBe(1);
   });
 
   it('should change quantity of item if another of the same is added', function () {
@@ -108,12 +108,12 @@ describe('when incremeneting dish in the basket', function () {
     });
   }));
 
-  var meal = {'meal': 'pizza', 'price': 9.50, 'quantity': 1};
+  var meal = {'meal': 'pizza', 'price': 9.50, 'quantity': 1, 'tags': ['#course:main_courses']};
 
-  it('should increment totalItems', function () {
+  it('should increment totalMains when a main is added', function () {
     scope.add(meal);
     scope.incrementDish(meal);
-    expect(scope.totalItems).toBe(2);
+    expect(scope.totalMains).toBe(2);
   });
 
   it('should add to the total price', function () {
@@ -124,10 +124,9 @@ describe('when incremeneting dish in the basket', function () {
 
   it('should change the quantity in the object', function () {
     scope.add(meal);
-    scope.incrementDish(meal);
-    expect(scope.basket).toBe(2);
+    scope.add(meal);
+    expect(scope.basket[0].quantity).toBe(2);
   });
-
 });
 
 describe('when decrementing dish in the basket', function () {
@@ -150,14 +149,14 @@ describe('when decrementing dish in the basket', function () {
     });
   }));
 
-  var meal = {'meal': 'pizza', 'price': 9.50, 'quantity': 1};
+  var meal = {'meal': 'pizza', 'price': 9.50, 'quantity': 1, 'tags': ['#course:main_courses']};
 
-  it('should decrement totalItems', function () {
+  it('should decrement totalMains when a main is decremented', function () {
     scope.add(meal);
     scope.incrementDish(meal);
     scope.incrementDish(meal);
     scope.decrementDish(meal);
-    expect(scope.totalItems).toBe(2);
+    expect(scope.totalMains).toBe(2);
   });
 
   it('should decrement totalCost', function () {
@@ -166,13 +165,5 @@ describe('when decrementing dish in the basket', function () {
     scope.incrementDish(meal);
     scope.decrementDish(meal);
     expect(scope.totalCost).toBe(19);
-  });
-
-  it('should change basketEmpty to true if nothing in basket', function () {
-    scope.add(meal);
-    scope.incrementDish(meal);
-    scope.decrementDish(meal);
-    scope.decrementDish(meal);
-    expect(scope.basket).toBe(true);
   });
 });

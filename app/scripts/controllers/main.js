@@ -25,7 +25,6 @@ angular.module('jstestApp')
     $rootScope.basketEmpty = true;
     $rootScope.basket = [];
     $rootScope.totalCost = 0;
-    $rootScope.totalItems = 0;
     $rootScope.totalMains = 0;
     $rootScope.totalOthers = 0;
 
@@ -36,41 +35,42 @@ angular.module('jstestApp')
       for (i = 0; i < $rootScope.basket.length; i++) {
         if ($rootScope.basket[i].meal === meal.name) {
           alreadyExists = true;
-          var j = $rootScope.basket[i].quantity;
-          $rootScope.basket[i] = ({meal: meal.name, price: parseFloat(meal.price), quantity: j+1});
+          var quantity = $rootScope.basket[i].quantity;
+          $rootScope.basket[i] = ({meal: meal.name, price: parseFloat(meal.price), quantity: quantity+1, tags: meal.tags});
           }
       }
 
       if (!alreadyExists) {
-        $rootScope.basket.push({meal: meal.name, price: parseFloat(meal.price), quantity: 1});
+        $rootScope.basket.push({meal: meal.name, price: parseFloat(meal.price), quantity: 1, tags: meal.tags});
       }
 
       if ($rootScope.basket.length === 0) {
-        $rootScope.basket.push({meal: meal.name, price: parseFloat(meal.price), quantity: 1});
+        $rootScope.basket.push({meal: meal.name, price: parseFloat(meal.price), quantity: 1, tags: meal.tags});
       }
-      if (meal.tags.indexOf("#course:main_courses") > -1) {
+      if (meal.tags.indexOf('#course:main_courses') > -1) {
         $rootScope.totalMains += 1;
       } else {
         $rootScope.totalOthers += 1;
       }
       $scope.updateStorage();
-      $rootScope.totalCost += parseFloat(meal.price);
+      $scope.totalCost += parseFloat(meal.price);
+      console.log($rootScope.basket);
     };
 
     $scope.incrementDish = function(item) {
       var i;
       for (i = 0; i < $rootScope.basket.length; i++) {
         if ($rootScope.basket[i].meal === item.meal) {
-          var j = $rootScope.basket[i].quantity;
-          $rootScope.basket[i] = ({meal: item.meal, price: parseFloat(item.price), quantity: j+1});
+          var quantity = $rootScope.basket[i].quantity;
+          $rootScope.basket[i] = ({meal: item.meal, price: parseFloat(item.price), quantity: quantity+1, tags: item.tags});
           }
       }
-      if (meal.tags.indexOf("#course:main_courses") > -1) {
+      if (item.tags.indexOf('#course:main_courses') > -1) {
         $rootScope.totalMains += 1;
       } else {
         $rootScope.totalOthers += 1;
       }
-      $rootScope.totalCost += parseFloat(item.price);
+      $scope.totalCost += parseFloat(item.price);
       $scope.updateStorage();
     };
 
@@ -78,8 +78,8 @@ angular.module('jstestApp')
       var i;
       for (i = 0; i < $rootScope.basket.length; i++) {
         if ($rootScope.basket[i].meal === item.meal) {
-          var j = $rootScope.basket[i].quantity;
-          $rootScope.basket[i] = ({meal: item.meal, price: parseFloat(item.price), quantity: j-1});
+          var quantity = $rootScope.basket[i].quantity;
+          $rootScope.basket[i] = ({meal: item.meal, price: parseFloat(item.price), quantity: quantity-1, tags: item.tags});
           if ($rootScope.basket[i].quantity === 0 ) {
             delete $rootScope.basket[i];
             $scope.deleted = true;
@@ -88,11 +88,11 @@ angular.module('jstestApp')
           }
         }
       }
-      if (meal.tags.indexOf("#course:main_courses") > -1) {
+      if (item.tags.indexOf('#course:main_courses') > -1) {
         $rootScope.totalMains -= 1;
       } else {
         $rootScope.totalOthers -= 1;
-      }      $rootScope.totalCost -= parseFloat(item.price);
+      }      $scope.totalCost -= parseFloat(item.price);
       $scope.updateStorage();
     };
 
@@ -111,17 +111,21 @@ angular.module('jstestApp')
     $scope.sessionPrice = function() {
       var i;
       for (i = 0; i < $rootScope.basket.length; i++) {
-        var j = $rootScope.basket[i].price;
-        var k = $rootScope.basket[i].quantity;
-        $rootScope.totalCost += (k * j);
+        var price = $rootScope.basket[i].price;
+        var quantity = $rootScope.basket[i].quantity;
+        $scope.totalCost += (price * quantity);
       }
     };
 
     $scope.sessionQuantity = function() {
       var i;
       for (i = 0; i < $rootScope.basket.length; i++) {
-        var j = $rootScope.basket[i].quantity;
-        $rootScope.totalItems += j;
+        var quantity = $rootScope.basket[i].quantity;
+        if ($rootScope.basket[i].tags.indexOf('#course:main_courses') > -1) {
+          $rootScope.totalMains += quantity;
+        } else {
+          $rootScope.totalOthers += quantity;
+        }
       }
     };
 
