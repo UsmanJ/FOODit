@@ -41,21 +41,60 @@ describe('when adding dishes to the basket', function () {
 	scope,
 	MenuService;
 
-
-  var fakeDish;
-
-  beforeEach(function(){
-    fakeDish = jasmine.createSpyObj('fakeDish', ['order']);
-
-    module({
-      Search: fakeDish,
+  beforeEach(inject(function ($controller, $rootScope, $injector) {
+    scope = $rootScope.$new();
+	MenuService = $injector.get('MenuService');
+	var success = function(func) {
+	  return func({resultCount: 1});
+	};
+	spyOn(MenuService, 'get').and.returnValue({success: success});
+    MainCtrl = $controller('MainCtrl', {
+      $scope: scope
     });
+  }));
 
+  var meal = {'meal': 'pizza', 'price': 9.50, 'quantity': 1};
+
+  it('should add a dish to the basket', function () {
+    scope.add(meal);
+    expect(scope.basketEmpty).toBe(false);
   });
 
-  beforeEach(function(){
-    fakeDish.query.and.returnValue({then: function(callback){callback({data: {items: items}})}})
+  it('basketEmpty remains false when numerous dishes are added to the basket', function () {
+    scope.add(meal);
+    scope.add(meal);
+    expect(scope.basketEmpty).toBe(false);
   });
+
+  it('should add the dish and price to the basket', function () {
+    scope.add(meal);
+    expect(scope.basket.length).toEqual(1);
+  });
+
+  it('should add dish price to the total', function () {
+    scope.add(meal);
+    expect(scope.totalCost).toBe(9.5);
+  });
+
+  it('should add a number to the total number of items when a dish is added', function () {
+    scope.add(meal);
+    expect(scope.totalItems).toBe(1);
+  });
+
+  it('should change quantity of item if another of the same is added', function () {
+    scope.add(meal);
+    scope.add(meal);
+    expect(scope.basket[0].quantity).toBe(2);
+  });
+});
+
+describe('when incremeneting dish in the basket', function () {
+
+  beforeEach(module('jstestApp'));
+
+  var MainCtrl,
+	scope,
+	MenuService;
 
   beforeEach(inject(function ($controller, $rootScope, $injector) {
     scope = $rootScope.$new();
@@ -69,30 +108,71 @@ describe('when adding dishes to the basket', function () {
     });
   }));
 
+  var meal = {'meal': 'pizza', 'price': 9.50, 'quantity': 1};
 
-  it('should add a dish to the basket', function () {
-    scope.add(scope);
-    expect(scope.basketEmpty).toBe(false);
+  it('should increment totalItems', function () {
+    scope.add(meal);
+    scope.incrementDish(meal);
+    expect(scope.totalItems).toBe(2);
   });
 
-  it('basketEmpty remains false when numerous dishes are added to the basket', function () {
-    scope.add(scope);
-    scope.add(scope);
-    expect(scope.basketEmpty).toBe(false);
+  it('should add to the total price', function () {
+    scope.add(meal);
+    scope.incrementDish(meal);
+    expect(scope.totalCost).toBe(19);
   });
 
-  // it('should add the dish and price to the basket', function () {
-  //   scope.add();
-  //   expect(scope.basket).toContain('Seafood risotto');
-  // });
+  it('should change the quantity in the object', function () {
+    scope.add(meal);
+    scope.incrementDish(meal);
+    expect(scope.basket).toBe(2);
+  });
 
-  // it('should add dish price to the total', function () {
-  //   scope.add(scope);
-  //   expect(scope.total).toBe(false);
-  // });
+});
 
-  it('should add a number to the total number of items when a dish is added', function () {
-    scope.add(Menu);
-    expect(scope.items).toBe(0);
+describe('when decrementing dish in the basket', function () {
+
+  beforeEach(module('jstestApp'));
+
+  var MainCtrl,
+	scope,
+	MenuService;
+
+  beforeEach(inject(function ($controller, $rootScope, $injector) {
+    scope = $rootScope.$new();
+	MenuService = $injector.get('MenuService');
+	var success = function(func) {
+	  return func({resultCount: 1});
+	};
+	spyOn(MenuService, 'get').and.returnValue({success: success});
+    MainCtrl = $controller('MainCtrl', {
+      $scope: scope
+    });
+  }));
+
+  var meal = {'meal': 'pizza', 'price': 9.50, 'quantity': 1};
+
+  it('should decrement totalItems', function () {
+    scope.add(meal);
+    scope.incrementDish(meal);
+    scope.incrementDish(meal);
+    scope.decrementDish(meal);
+    expect(scope.totalItems).toBe(2);
+  });
+
+  it('should decrement totalCost', function () {
+    scope.add(meal);
+    scope.incrementDish(meal);
+    scope.incrementDish(meal);
+    scope.decrementDish(meal);
+    expect(scope.totalCost).toBe(19);
+  });
+
+  it('should change basketEmpty to true if nothing in basket', function () {
+    scope.add(meal);
+    scope.incrementDish(meal);
+    scope.decrementDish(meal);
+    scope.decrementDish(meal);
+    expect(scope.basket).toBe(true);
   });
 });

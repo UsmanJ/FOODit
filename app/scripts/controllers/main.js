@@ -74,6 +74,7 @@ angular.module('jstestApp')
             delete $rootScope.basket[i];
             $scope.deleted = true;
             $scope.clearBasket();
+            $rootScope.basketEmpty = true;
           }
         }
       }
